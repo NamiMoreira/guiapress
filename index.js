@@ -3,6 +3,12 @@ const app = express();
 const bodyParser = require('body-parser');
 const connection = require('./Database/database.js')
 
+const Article = require('./articles/Articles.js');
+const Category = require("./categories/Category.js");
+
+const categoriesController = require("./categories/CategoriesController.js");
+const articlesController = require("./articles/ArticlesController.js");
+
 
 app.set('view engine','ejs');
 
