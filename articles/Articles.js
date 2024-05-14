@@ -20,5 +20,6 @@ Category.hasMany(Article);
 Article.belongsTo(Category);
 
 
+
 module.exports = Category;
 
