@@ -19,11 +19,22 @@
                 </thead>
                 <tbody>
                    <% categories.forEach(category => { %>
+                    <tr>
                         <th>    <%= category.id %>      </th>
                         <th>    <%= category.title %>   </th>
                         <th>    <%= category.slug %>    </th>
-                        <th></th>
-
+                        <th>
+                           
+                         <a href="/admin/categories/edit/<%- category.id %> "> 
+                            <button class="btn btn-warning">Editar</button>
+                         </a> 
+                            <form method="POST" action="/categories/delete" style="display: inline;" onsubmit="confirmDelection(event, this)">
+                                <input type="hidden" name="id" value="<%- category.id %>">
+                                <button class="btn btn-danger">Deletar</button>
+                            </form>
+                            
+                        </th>
+                    </tr> 
                    <% })   %>
                 </tbody>
             </table>
@@ -31,3 +42,17 @@
             
         </div>
 <%- include ('../../partials/footer.ejs') %>
+<script>
+ function confirmDelection(event, form) {
+    var decision = confirm("Você deseja deletar essa categoria?")
+    if (decision) {
+        form.submit()
+        alert("Formulário deletado")
+    }else{
+        event.preventDefault()
+        alert("Formulário não foi deletado.")
+    }
+   
+  
+ }
+</script>
