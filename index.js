@@ -28,8 +28,54 @@ connection.
     });
 
 app.get("/",(req,res) =>{
-    res.render('index')
-})
+
+    Article.findAll({
+        order:[ [ "id","DESC"] ]
+    }).then((articles => {
+        Category.findAll().then(categories =>{
+            res.render('index', {articles: articles, categories: categories})
+        })
+     }))
+});
+
+app.get("/:slug",(req,res) => {
+    var slug = req.params.slug;
+    Article.findOne({
+        where: {
+            slug: slug
+        }
+    }).then((articles => {   
+       if(articles != undefined) {
+            res.render('article', {articles: articles})
+       }else{
+        res.redirect("/");
+       }
+        
+    })).catch(err => {
+        res.redirect("/");
+    })
+});
+
+app.get("/category/:slug",(req,res) =>{
+    var slug = req.params.slug;
+
+    Category.findOne({
+        where: {
+            slug: slug
+        },
+            include: [{model: Article}] 
+    }).then( category =>{
+        if(category != undefined){
+            Category.findAll().then(categories =>{
+                res.render('index',{categories: categories , articles: category.articles});
+            })
+        }else{
+            res.redirect('/');
+        }
+    }).catch(err => {
+            res.redirect('/');
+    })
+});
 
 
 app.listen(8080, ()=>{
