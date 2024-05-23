@@ -1,5 +1,14 @@
 <%- include ('../../partials/header.ejs') %>
 <%- include ('../../partials/navbar.ejs') %>
+<script>
+    var cont = <%= cont %>;
+        window.onload = function() {
+            
+        if (cont) {
+            alert("Alterações realizadas com sucesso!")
+        }   
+        };
+   </script>
 
         <div class="container">
             <hr>
@@ -44,6 +53,11 @@
         </div>
 <%- include ('../../partials/footer.ejs') %>
 <script>
+
+ function verify(cont){
+
+ };
+
  function confirmDelection(event, form) {
     var decision = confirm("Você deseja deletar esse Artigo?")
     if (decision) {
@@ -52,8 +66,7 @@
     }else{
         event.preventDefault()
         alert("Artigo não foi deletado.")
-    }
-   
+    }  
   
  }
 </script>

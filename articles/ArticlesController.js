@@ -8,7 +8,7 @@ router.get('/admin/articles',(req,res) => {
     Article.findAll({
         include: [{model: Category}]
     }).then((articles => {
-        res.render('admin/articles/index.ejs',{articles: articles})
+        res.render('admin/articles/index.ejs',{articles: articles, cont: false})
     }
     ))
 });
@@ -73,18 +73,22 @@ router.get("/admin/articles/edit/:id",(req,res) => {
 router.post('/articles/update',(req,res) => {
     var title = req.body.title;
     var body = req.body.body;
-    var categoryId = req.body.category;
+    var category = req.body.categoryId;
     var id = req.body.id
-console.log(id);
-        Article.update({title: title, body: body, categoryId: categoryId},{
+    console.log(category + 'tenaomiste');
+    Article.update({title: title, body: body, categoryId: category},{
             where: {
                 id: id
             }
-        }).then(() => {
-            res.redirect('/admin/articles')
-        })
-    
-
-})
+        }).then(() =>{
+            Article.findAll({
+                include: [{model: Category}]  
+        }).then((articles => {
+            res.render('./admin/articles/index.ejs',{articles: articles, cont: true})
+        })) 
+        }).catch((err => {
+            res.redirect('/admin/articles');
+        }))  
+});
 
 module.exports = router;

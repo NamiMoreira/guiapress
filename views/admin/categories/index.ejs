@@ -31,16 +31,14 @@
                             <form method="POST" action="/categories/delete" style="display: inline;" onsubmit="confirmDelection(event, this)">
                                 <input type="hidden" name="id" value="<%- category.id %>">
                                 <button class="btn btn-danger">Deletar</button>
-                            </form>
-                            
+                            </form>                          
                         </th>
                     </tr> 
                    <% })   %>
                 </tbody>
-            </table>
-
-            
+            </table>        
         </div>
+
 <%- include ('../../partials/footer.ejs') %>
 <script>
  function confirmDelection(event, form) {
@@ -52,7 +50,5 @@
         event.preventDefault()
         alert("Formulário não foi deletado.")
     }
-   
-  
  }
 </script>

@@ -40,13 +40,17 @@ app.get("/",(req,res) =>{
 
 app.get("/:slug",(req,res) => {
     var slug = req.params.slug;
+    
+    Category.findAll().then(categories => {
+
+    
     Article.findOne({
         where: {
             slug: slug
         }
     }).then((articles => {   
        if(articles != undefined) {
-            res.render('article', {articles: articles})
+            res.render('article.ejs', {articles: articles,categories: categories})
        }else{
         res.redirect("/");
        }
@@ -54,6 +58,8 @@ app.get("/:slug",(req,res) => {
     })).catch(err => {
         res.redirect("/");
     })
+})
+
 });
 
 app.get("/category/:slug",(req,res) =>{
@@ -76,8 +82,6 @@ app.get("/category/:slug",(req,res) =>{
             res.redirect('/');
     })
 });
-
-
 app.listen(8080, ()=>{
     console.log("servior rodando na porta 8080"); 
 });
