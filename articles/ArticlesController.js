@@ -23,7 +23,6 @@ router.post("/articles/save",(req,res) =>{
         var title = req.body.title;
         var body = req.body.body;
         var category = req.body.category;
-        console.log(category);
 
         Article.create({
             title: title,
@@ -55,5 +54,37 @@ router.post("/articles/delete",(req,res) => {
         res.redirect("/admin/articles")
     }
 });
+
+router.get("/admin/articles/edit/:id",(req,res) => {
+     var id = req.params.id;   
+    
+    Article.findOne({
+            where: {
+                id: id
+            },
+            include: [{model: Category}] 
+        }).then(articles =>{
+            Category.findAll().then(categories =>{
+                res.render('./admin/articles/edit',{articles: articles, categories: categories})
+            })
+        })
+});
+
+router.post('/articles/update',(req,res) => {
+    var title = req.body.title;
+    var body = req.body.body;
+    var categoryId = req.body.category;
+    var id = req.body.id
+console.log(id);
+        Article.update({title: title, body: body, categoryId: categoryId},{
+            where: {
+                id: id
+            }
+        }).then(() => {
+            res.redirect('/admin/articles')
+        })
+    
+
+})
 
 module.exports = router;
