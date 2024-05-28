@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const connection = require('./Database/database.js')
+const session = require('express-session');
 
 const Article = require('./articles/Articles.js');
 const Category = require("./categories/Category.js");
@@ -11,6 +12,13 @@ const categoriesController = require("./categories/CategoriesController.js");
 const articlesController = require("./articles/ArticlesController.js");
 const userController = require("./user/userController.js");
 
+
+app.use(session({
+    secret: "awsdawsdawsd",
+    cookie: {maxAge: 120000 },
+
+
+}));
 
 app.set('view engine','ejs');
 
@@ -86,6 +94,9 @@ app.get("/category/:slug",(req,res) =>{
             res.redirect('/');
     })
 });
+
+
+
 app.listen(8080, ()=>{
     console.log("servior rodando na porta 8080"); 
 });

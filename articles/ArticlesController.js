@@ -4,7 +4,9 @@ const Category = require('../categories/Category');
 const Article = require("./Articles");
 const slugify = require("slugify")
 
-router.get('/admin/articles',(req,res) => {
+const adminAuth = require("../middleware/adminAuth")
+
+router.get('/admin/articles',adminAuth,(req,res) => {
     Article.findAll({
         include: [{model: Category}]
     }).then((articles => {
@@ -13,7 +15,7 @@ router.get('/admin/articles',(req,res) => {
     ))
 });
 
-router.get('/admin/articles/new',(req,res) => {
+router.get('/admin/articles/new',adminAuth,(req,res) => {
     Category.findAll().then(categories => {
         res.render('admin/articles/new.ejs',{categories: categories})
     })
@@ -57,7 +59,7 @@ router.post("/articles/delete",(req,res) => {
     }
 });
 
-router.get("/admin/articles/edit/:id",(req,res) => {
+router.get("/admin/articles/edit/:id",adminAuth,(req,res) => {
      var id = req.params.id;   
     
     Article.findOne({
@@ -98,7 +100,7 @@ router.post('/articles/update',(req,res) => {
         }))  
 });
 
-router.get("/articles/page/:num", (req,res) =>{
+router.get("/articles/page/:num",(req,res) =>{
     var page = req.params.num;
     var offset = 0;
 
